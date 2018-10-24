@@ -4,7 +4,9 @@ debug = false
 love.math.setRandomSeed(os.time())
 
 -- Constants
+-- TODO: CONSIDER VARYING SOME OF THESE PER LANDSCAPE
 local STEP_DURATION = 2 -- seconds
+local STEPS = 5 
 local SPREAD = 5
 
 -- Globals
@@ -20,7 +22,8 @@ function love.load()
     local newLandscape = Landscape(
         {1,0,0},
         STEP_DURATION,
-        SPREAD
+        SPREAD,
+        STEPS
     )
     newLandscape:addLine(Line(Point(0, love.graphics.getHeight()/2), Point(love.graphics.getWidth(),love.graphics.getHeight()/2)))
     table.insert(landscapes, newLandscape)
