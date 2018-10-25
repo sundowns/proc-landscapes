@@ -118,6 +118,11 @@ function util.maths.midpoint(x1, y1, x2, y2)
   return (x2+x1)/2, (y2+y1)/2
 end
 
+function util.maths.jitterBy(value, spread)
+  assert(love, "This function uses love.math.random for the time being")
+  return value + love.math.random(-1*spread, spread)
+end
+
 ---------------------- DEBUG
 
 function util.debug.log(text)

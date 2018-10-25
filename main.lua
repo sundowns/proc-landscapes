@@ -5,9 +5,9 @@ love.math.setRandomSeed(os.time())
 
 -- Constants
 -- TODO: CONSIDER VARYING SOME OF THESE PER LANDSCAPE
-local STEP_DURATION = 2 -- seconds
-local STEPS = 5 
-local SPREAD = 5
+local STEP_DURATION = 0.5 -- seconds
+local STEPS = 10
+local SPREAD = 30
 
 -- Globals
 local landscapes = {} -- operate in a table so we can add layers

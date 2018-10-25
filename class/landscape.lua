@@ -26,21 +26,23 @@ Landscape = Class {
         --[[
         - for each of our lines
             - Calculate the midpoint (see util.m.midpoint())
-            - Randomly move it ALONG THE LINE by a random number from -spread -> +spread (https://math.stackexchange.com/questions/175896/finding-a-point-along-a-line-a-certain-distance-away-from-another-point#175906)
+            - Randomly jitter the midpoint
             - Create two new lines (A -> mid, mid -> B)
             - Replace line with two new child lines (without looping over it in the same recurse)
         ]]
+
+        --TODO: Need some sort of consideration to stop new lines overlapping old??
+
+        local newLines = {}
         
         for i, line in pairs(self.lines) do
             local midpoint = line:midpoint()
-            print(Point(midpoint.x, midpoint.y)) 
+            midpoint:jitterBy(self.spread)
 
-            --https://math.stackexchange.com/questions/175896/finding-a-point-along-a-line-a-certain-distance-away-from-another-point#175906
-            --DONT do the below, you need to find the function of the line and move along it!! Do above instead
-            -- local newX = midpoint.x + love.math.random(self.spread*-1, self.spread)
-            -- local newY = midpoint.y + love.math.random(self.spread*-1, self.spread)
-            
+            table.insert(newLines, Line(line.A, midpoint))
+            table.insert(newLines, Line(midpoint, line.B))
         end
+        self.lines = newLines
     end;
     fill = function(self)
         print("filling")
