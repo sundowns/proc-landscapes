@@ -5,6 +5,7 @@ Landscape = Class {
         self.step = 1
         self.max_steps = max_steps
         self.spread = spread
+        self.spread_decay = 0.5 -- constant or per landscape?
         self.colour = colour -- consider using palettes/ranges/gradients
         self.lines = {}
         self.filled = false
@@ -31,18 +32,31 @@ Landscape = Class {
             - Replace line with two new child lines (without looping over it in the same recurse)
         ]]
 
-        --TODO: Need some sort of consideration to stop new lines overlapping old??
+        --https://www.reddit.com/r/proceduralgeneration/comments/6cmrji/landscape_in_a_frame_i_tried_to_recreate_the_one/
+        --https://github.com/rap2hpoutre/landscape
 
         local newLines = {}
         
         for i, line in pairs(self.lines) do
             local midpoint = line:midpoint()
-            midpoint:jitterBy(self.spread)
+
+            --TODO: replace this garbage
+            if self.step == 1 then
+                --Only allow going UP on the first recurse
+                midpoint.x = midpoint.x + love.math.random(-1*self.spread, self.spread)
+                midpoint.y = midpoint.y - love.math.random(self.spread/2, self.spread)
+            else
+                local jitteredX = Util.maths.jitterBy(midpoint.x, self.spread)
+                midpoint.x = Util.maths.clamp(jitteredX, (line.A.x+midpoint.x)/2, (line.B.x+midpoint.x)/2)
+                midpoint.y = Util.maths.jitterBy(midpoint.y, self.spread)
+            end
+            
 
             table.insert(newLines, Line(line.A, midpoint))
             table.insert(newLines, Line(midpoint, line.B))
         end
         self.lines = newLines
+        self.spread = self.spread * self.spread_decay
     end;
     fill = function(self)
         print("filling")
