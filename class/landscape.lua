@@ -73,4 +73,21 @@ Landscape = Class {
     addLine = function(self, line)
         table.insert(self.lines, line)
     end;
+    --https://jonoshields.com/2017/03/29/creating-procedurally-generated-scenes/
+    octaveSimplex = function(x, y, z, octaves, persistence)
+        local total = 0;
+        local frequency = 1;
+        local amplitude = 1;
+        local maxValue = 0;  -- Used for normalizing result to 0.0 - 1.0
+        for i=0,octaves,1 do 
+            total = total + love.math.noise(x * frequency, y * frequency, z * frequency) * amplitude
+            
+            maxValue = maxValue + amplitude
+            
+            amplitude = amplitude * persistence
+            frequency = frequency * 2
+        end
+        
+        return total/maxValue
+    end;        
 }
