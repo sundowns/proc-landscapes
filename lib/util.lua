@@ -154,12 +154,12 @@ function util.love.renderStats(x, y)
   if not x then x = 0 end
   if not y then y = 0 end
   local stats = love.graphics.getStats()
-  love.graphics.print("texture memory (MB): ".. stats.texturememory / 1024 / 1024, 3, 60)
-  love.graphics.print("drawcalls: ".. stats.drawcalls, 3, 80)
-  love.graphics.print("canvasswitches: ".. stats.canvasswitches , 3, 100)
-  love.graphics.print("images loaded: ".. stats.images, 3, 120)
-  love.graphics.print("canvases loaded: ".. stats.canvases, 3, 140)
-  love.graphics.print("fonts loaded: ".. stats.fonts, 3, 160)
+  love.graphics.print("texture memory (MB): ".. stats.texturememory / 1024 / 1024, x, y)
+  love.graphics.print("drawcalls: ".. stats.drawcalls, x, y+20)
+  love.graphics.print("canvasswitches: ".. stats.canvasswitches , x, y+40)
+  love.graphics.print("images loaded: ".. stats.images, x, y+60)
+  love.graphics.print("canvases loaded: ".. stats.canvases, x, y+80)
+  love.graphics.print("fonts loaded: ".. stats.fonts, x, y+100)
 end
 
 if not love then util.love = nil end
