@@ -43,7 +43,7 @@ Image = Class {
         self.colours = {}
         local value_increment = self.colour_HSV.v/(count*constants.LANDSCAPES.LAYER_COLOUR_CHANGE)
         for i = 0, count-1 do 
-            table.insert(self.colours, Colour(self.colour_HSV.h, self.colour_HSV.s, self.colour_HSV.v - value_increment*i)) 
+            table.insert(self.colours, Colour(self.colour_HSV.h, self.colour_HSV.s, self.colour_HSV.v + value_increment*i)) 
         end
     end;
     getNextColour = function(self)

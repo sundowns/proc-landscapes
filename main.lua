@@ -15,7 +15,7 @@ function love.load()
     require("class.image")
     require("class.colourHSV")
 
-    image = Image(Colour(love.math.random(255), love.math.random(20, 255), love.math.random(150,255)))
+    image = Image(Colour(love.math.random(255), love.math.random(20, 255), love.math.random(100,200)))
     image:addBulkLandscapes(constants.LANDSCAPES.COUNT)
 end
 
@@ -37,7 +37,7 @@ function love.keypressed(key)
         debug = not debug
     elseif key == "escape" then
         love.event.quit()
-    elseif key == "r" then
+    elseif key == "space" then
         love.event.quit('restart')
     end
 end

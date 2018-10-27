@@ -13,7 +13,7 @@ Landscape = Class {
         self.persistence = persistence
         self.colour = colour
         self.pixel_map = {}
-        self.seed = love.math.randomNormal() 
+        self.seed = love.math.randomNormal() + love.math.random() 
     end;
     generate = function(self)
         self.canvas = love.graphics.newCanvas()
@@ -31,7 +31,7 @@ Landscape = Class {
         local hue_change = constants.LANDSCAPES.GRADIENT_HUE_CHANGE
         for x = 0, self.pixel_count, 1 do
             for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
-                colour.h = colour.h + hue_change/y
+                colour.h = colour.h - hue_change/y
                 love.graphics.setColor(colour:toRGB())
                 love.graphics.points(x, y)
             end
