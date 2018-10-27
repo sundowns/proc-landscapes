@@ -7,10 +7,19 @@ Image = Class {
         self.renderIndex = 1
         self.renderDelay = constants.RENDER_DELAY
         self.renderTimer = 0
+        self.screenshotted = false
+        self.complete = false
+        self.screenshotted = false
         self:calculateBackgroundColour()
     end;
     update = function(self, dt)
+        if not self.backgroundDrawn then
+            self.backgroundDrawn = true
+            return
+        end
+
         if self.renderIndex > #self.landscapes then
+            self.complete = true
             return --All landscapes already
         end
 
@@ -68,4 +77,10 @@ Image = Class {
     addLandscape = function(self, y_offset, persistence)
         table.insert(self.landscapes,  Landscape(y_offset, love.graphics.getWidth(), self:getNextColour(), constants.LANDSCAPES.OCTAVES, persistence))
     end;    
+    screenshot = function(self)
+        local name = 'screen-' .. os.time() .. '.png'
+        love.graphics.captureScreenshot(name)
+        print("Screenshot `"..name.."` to "..love.filesystem.getSaveDirectory())
+        self.screenshotted = true
+    end;
 }

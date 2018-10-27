@@ -1,8 +1,7 @@
+love.math.setRandomSeed(os.time())
 love.filesystem.setRequirePath(love.filesystem.getRequirePath()..";lib/?.lua;lib/;")
 debug = false
 local running = true
-
-love.math.setRandomSeed(os.time())
 
 -- Globals
 local image = {} -- operate in a table so we can add layers
@@ -14,6 +13,8 @@ function love.load()
     require("class.landscape")
     require("class.image")
     require("class.colourHSV")
+
+    love.filesystem.setIdentity("proc-landscapes")
 
     image = Image(Colour(love.math.random(255), love.math.random(20, 255), love.math.random(100,200)))
     image:addBulkLandscapes(constants.LANDSCAPES.COUNT)
@@ -39,5 +40,13 @@ function love.keypressed(key)
         love.event.quit()
     elseif key == "space" then
         love.event.quit('restart')
+    end
+end
+
+function love.keyreleased(key)
+    if key == "s" then
+        if image.complete and not image.screenshotted then
+            image:screenshot()
+        end
     end
 end

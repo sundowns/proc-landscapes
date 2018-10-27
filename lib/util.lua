@@ -168,7 +168,6 @@ end
 
 ---------------------- FILE
 
---Only use this outside of Love2d scope
 function util.file.exists(name)
   if love then assert(false, "Not to be used in love games, use love.filesystem.getInfo") end
   local f=io.open(name,"r")
@@ -205,7 +204,7 @@ function util.string.randomString(l)
   if l < 1 then return nil end
   local stringy=""
   for i=1,l do
-    stringy=stringy..random_letter()
+    stringy=stringy..util.string.randomLetter()
   end
   return stringy
 end
