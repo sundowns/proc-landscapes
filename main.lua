@@ -6,7 +6,7 @@ love.math.setRandomSeed(os.time())
 
 -- Constants
 -- TODO: CONSIDER VARYING SOME OF THESE PER LANDSCAPE
-local LANDSCAPE_COUNT = 10
+local LANDSCAPE_COUNT = 4
 
 -- Globals
 local image = {} -- operate in a table so we can add layers
@@ -18,10 +18,7 @@ function love.load()
     require("class.image")
 
     image = Image()
-
-    for i = 1, LANDSCAPE_COUNT do
-        image:addLandscape(love.math.random(love.graphics.getHeight()/10, love.graphics.getHeight()/2), love.graphics.getWidth(), i)
-    end
+    image:addBulkLandscapes(LANDSCAPE_COUNT)
 end
 
 function love.update(dt)

@@ -1,13 +1,15 @@
 Landscape = Class {
-    init = function(self, y_offset, pixel_count, colour, layer_index, octaves, persistence, noise_scale)
+    init = function(self, y_offset, pixel_count, colour, opacity, octaves, persistence, noise_scale)
         assert(y_offset)
         assert(pixel_count)
-        assert(layer_index)
+        assert(opacity)
         assert(colour)
         assert(octaves)
         assert(persistence)
         assert(noise_scale)
-        self.layer_index = layer_index
+        print(opacity)
+        Util.t.print(colour)
+        self.opacity = opacity
         self.y_offset = y_offset
         self.noise_scale = noise_scale
         self.pixel_count = pixel_count
@@ -30,14 +32,15 @@ Landscape = Class {
         love.graphics.setCanvas(self.canvas)
         love.graphics.setColor(self.colour)
         for x = 0, self.pixel_count, 1 do
-            for y = love.graphics.getHeight(), self.pixel_map[x], -1 do
+            for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
                 love.graphics.points(x, y)
             end
         end;
         love.graphics.setCanvas()
     end;
     draw = function (self)
-        love.graphics.setColor(1,1,1, 1/self.layer_index) --TODO: Pull transparency from layer ##
+        Util.d.log("col: " ..self.colour[1]..' , '..self.colour[2]..' , '..self.colour[3] .. " opacity: ".. self.opacity)
+        love.graphics.setColor(1,1,1, self.opacity) --TODO: Pull transparency from layer ##
         love.graphics.draw(self.canvas, 0, self.y_offset)
     end;
     --https://jonoshields.com/2017/03/29/creating-procedurally-generated-scenes/
