@@ -1,7 +1,6 @@
 love.math.setRandomSeed(os.time())
 love.filesystem.setRequirePath(love.filesystem.getRequirePath()..";lib/?.lua;lib/;")
 debug = false
-local running = true
 
 -- Globals
 local image = {} -- operate in a table so we can add layers
@@ -16,9 +15,13 @@ function love.load()
 
     love.filesystem.setIdentity("proc-landscapes")
 
+    generate()
+end
+
+function generate()
     image = Image(Colour(love.math.random(255), love.math.random(20, 255), love.math.random(100,200)))
     image:addBulkLandscapes(constants.LANDSCAPES.COUNT)
-end
+end;
 
 function love.update(dt)
     image:update(dt)
@@ -39,7 +42,8 @@ function love.keypressed(key)
     elseif key == "escape" then
         love.event.quit()
     elseif key == "space" then
-        love.event.quit('restart')
+        -- love.event.quit('restart')
+        generate()
     end
 end
 
