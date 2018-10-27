@@ -24,6 +24,8 @@ Image = Class {
         end
     end;
     draw = function(self)
+        --TODO: draw a sky
+
         for i = #self.landscapes, 1, -1 do
             self.landscapes[i]:draw()
         end;

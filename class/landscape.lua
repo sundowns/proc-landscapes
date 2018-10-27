@@ -26,11 +26,17 @@ Landscape = Class {
     end;
     renderToCanvas = function(self)
         love.graphics.setCanvas(self.canvas)
-        love.graphics.setColor(self.colour:toRGB())
+        local reset =  self.colour.h
+        local colour = self.colour
+        local hue_change = constants.LANDSCAPES.GRADIENT_HUE_CHANGE
         for x = 0, self.pixel_count, 1 do
             for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
+                colour.h = colour.h + hue_change/y
+                -- if colour.h > 255 then colour.h = 0 end
+                love.graphics.setColor(colour:toRGB())
                 love.graphics.points(x, y)
             end
+            colour.h = reset
         end;
         love.graphics.setCanvas()
     end;
