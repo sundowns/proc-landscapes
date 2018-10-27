@@ -47,12 +47,14 @@ Image = Class {
         self.rendered = false
         self:generateColourTable(count)
         local offset = love.graphics.getHeight()*constants.LANDSCAPES.BASE_OFFSET_HEIGHT_RATIO
+        local persistence = constants.LANDSCAPES.PERSISTENCE
         for i = 1, count do
-            self:addLandscape(offset)
+            self:addLandscape(offset, persistence)
             offset = offset - love.math.random(love.graphics.getHeight()*0.15/count, love.graphics.getHeight()*0.6/count)
+            persistence = persistence * constants.LANDSCAPES.LACUNARITY
         end
     end;
-    addLandscape = function(self, y_offset)
-        table.insert(self.landscapes,  Landscape(y_offset, love.graphics.getWidth(), self:getNextColour(), constants.LANDSCAPES.OCTAVES, constants.LANDSCAPES.PERSISTENCE))
+    addLandscape = function(self, y_offset, persistence)
+        table.insert(self.landscapes,  Landscape(y_offset, love.graphics.getWidth(), self:getNextColour(), constants.LANDSCAPES.OCTAVES, persistence))
     end;    
 }
