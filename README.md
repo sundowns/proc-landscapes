@@ -1,3 +1,3 @@
 # Procedural Landscapes
 
-Creative coding project create art with procedurally generated 'landscapes' using recursive midpoint displacement.
+Creative coding project create art with procedurally generated mountain ranges using simplex noise

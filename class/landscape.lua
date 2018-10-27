@@ -1,23 +1,19 @@
 Landscape = Class {
-    init = function(self, y_offset, pixel_count, colour, opacity, octaves, persistence, noise_scale)
+    init = function(self, y_offset, pixel_count, colour, octaves, persistence)
         assert(y_offset)
         assert(pixel_count)
-        assert(opacity)
         assert(colour)
         assert(octaves)
         assert(persistence)
-        assert(noise_scale)
-        self.ready = false -- use this to generate as a part of the update cycle
-        self.opacity = opacity
+        self.complete = false -- use this to generate as a part of the update cycle
         self.y_offset = y_offset
-        self.noise_scale = noise_scale
+        self.noise_scale = constants.LANDSCAPES.NOISE_SCALE
         self.pixel_count = pixel_count
         self.octaves = octaves
         self.persistence = persistence
         self.colour = colour
         self.pixel_map = {}
         self.seed = love.math.randomNormal() 
-        self:generate()
     end;
     generate = function(self)
         self.canvas = love.graphics.newCanvas()
@@ -26,6 +22,7 @@ Landscape = Class {
         end
 
         self:renderToCanvas()
+        self.complete = true
     end;
     renderToCanvas = function(self)
         love.graphics.setCanvas(self.canvas)
@@ -38,7 +35,10 @@ Landscape = Class {
         love.graphics.setCanvas()
     end;
     draw = function (self)
-        love.graphics.setColor(1,1,1, self.opacity)
+        if not self.complete then
+            return
+        end
+        Util.l.resetColour()
         love.graphics.draw(self.canvas, 0, self.y_offset)
     end;
     --https://jonoshields.com/2017/03/29/creating-procedurally-generated-scenes/

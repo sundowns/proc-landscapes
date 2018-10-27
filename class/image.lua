@@ -4,8 +4,24 @@ Image = Class {
         self.colours = {}
         self.colour_index = 1
         self.landscapes = {}
+        self.renderIndex = 1
+        self.renderDelay = constants.RENDER_DELAY
+        self.renderTimer = 0
     end;
     update = function(self, dt)
+        if self.renderIndex > #self.landscapes then
+            return --All landscapes already
+        end
+
+        self.renderTimer = self.renderTimer - dt
+        if self.renderTimer <= 0 then
+            if self.renderIndex <= #self.landscapes then
+                self.landscapes[self.renderIndex]:generate()
+                self.renderIndex = self.renderIndex + 1
+            end
+
+            self.renderTimer = self.renderTimer + self.renderDelay
+        end
     end;
     draw = function(self)
         for i = #self.landscapes, 1, -1 do
@@ -28,16 +44,15 @@ Image = Class {
         return colour
     end;
     addBulkLandscapes = function(self, count)
+        self.rendered = false
         self:generateColourTable(count)
-        local offset = love.graphics.getHeight()*0.6
-        local opacity = 1
+        local offset = love.graphics.getHeight()*constants.LANDSCAPES.BASE_OFFSET_HEIGHT_RATIO
         for i = 1, count do
-            self:addLandscape(offset, opacity)
+            self:addLandscape(offset)
             offset = offset - love.math.random(love.graphics.getHeight()*0.15/count, love.graphics.getHeight()*0.6/count)
-            opacity = opacity - (1/count)
         end
     end;
-    addLandscape = function(self, y_offset, opacity)
-        table.insert(self.landscapes,  Landscape(y_offset, love.graphics.getWidth(), self:getNextColour(), opacity, 24, 0.4, love.graphics.getHeight()/2))
+    addLandscape = function(self, y_offset)
+        table.insert(self.landscapes,  Landscape(y_offset, love.graphics.getWidth(), self:getNextColour(), constants.LANDSCAPES.OCTAVES, constants.LANDSCAPES.PERSISTENCE))
     end;    
 }
