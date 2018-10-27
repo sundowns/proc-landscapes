@@ -32,7 +32,6 @@ Landscape = Class {
         for x = 0, self.pixel_count, 1 do
             for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
                 colour.h = colour.h + hue_change/y
-                -- if colour.h > 255 then colour.h = 0 end
                 love.graphics.setColor(colour:toRGB())
                 love.graphics.points(x, y)
             end
@@ -44,7 +43,7 @@ Landscape = Class {
         if not self.complete then
             return
         end
-        Util.l.resetColour()
+        
         love.graphics.draw(self.canvas, 0, self.y_offset)
     end;
     --https://jonoshields.com/2017/03/29/creating-procedurally-generated-scenes/

@@ -1,12 +1,13 @@
 Image = Class {
     init = function(self, colour_HSV)
-        self.colour_HSV = colour_HSV -- Keep the same Hue and Sat, but vary value to get same shade of colour
+        self.colour_HSV = colour_HSV 
         self.colours = {}
         self.colour_index = 1
         self.landscapes = {}
         self.renderIndex = 1
         self.renderDelay = constants.RENDER_DELAY
         self.renderTimer = 0
+        self:calculateBackgroundColour()
     end;
     update = function(self, dt)
         if self.renderIndex > #self.landscapes then
@@ -24,11 +25,19 @@ Image = Class {
         end
     end;
     draw = function(self)
-        --TODO: draw a sky
+        love.graphics.setColor(self.backgroundColour:toRGB())
+        love.graphics.rectangle('fill', 0,0, love.graphics.getWidth(), love.graphics.getHeight())
 
+        Util.l.resetColour()
         for i = #self.landscapes, 1, -1 do
             self.landscapes[i]:draw()
         end;
+    end;
+    calculateBackgroundColour = function(self)
+        self.backgroundColour = self.colour_HSV:clone()
+        self.backgroundColour:adjustHue(love.math.random(64,128))
+        self.backgroundColour:adjustSaturation(-0.6*self.backgroundColour.s)
+        self.backgroundColour:adjustValue(0.25*self.backgroundColour.v)
     end;
     generateColourTable = function(self, count)
         self.colours = {}

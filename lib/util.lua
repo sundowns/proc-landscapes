@@ -126,7 +126,6 @@ function util.maths.jitterBy(value, spread)
   return value + love.math.random(-1*spread, spread)
 end
 
---TODO: document
 --Taken from: https://love2d.org/wiki/HSV_color
 function util.maths.HSVtoRGB255(hue, sat, val)
   if sat <= 0 then return val,val,val end
@@ -143,7 +142,6 @@ function util.maths.HSVtoRGB255(hue, sat, val)
   end return (r+m)*255,(g+m)*255,(b+m)*255
 end
 
---TODO: document
 --Taken from: https://love2d.org/wiki/HSV_color
 function util.maths.HSVtoRGB(hue, sat, val)
   if sat <= 0 then return val,val,val end
@@ -202,8 +200,6 @@ end
 if not love then util.love = nil end
 
 ---------------------- STRING
-
---TODO: document this
 
 function util.string.randomString(l)
   if l < 1 then return nil end
