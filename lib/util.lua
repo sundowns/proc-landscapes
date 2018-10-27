@@ -16,6 +16,8 @@ local meta = {
          return rawget(table, "file")
       elseif key == "d" then
          return rawget(table, "debug")
+      elseif key == "s" then
+        return rawget(table, "string")
       else
          return rawget(table, key)
       end
@@ -28,6 +30,7 @@ util.maths = {}
 util.table = {}
 util.file = {}
 util.debug = {}
+util.string = {}
 
 setmetatable(util, meta)
 
@@ -123,6 +126,40 @@ function util.maths.jitterBy(value, spread)
   return value + love.math.random(-1*spread, spread)
 end
 
+--TODO: document
+--Taken from: https://love2d.org/wiki/HSV_color
+function util.maths.HSVtoRGB255(hue, sat, val)
+  if sat <= 0 then return val,val,val end
+  local h, s, v = hue/256*6, sat/255, val/255
+  local c = v*s
+  local x = (1-math.abs((h%2)-1))*c
+  local m,r,g,b = (v-c), 0,0,0
+  if h < 1     then r,g,b = c,x,0
+  elseif h < 2 then r,g,b = x,c,0
+  elseif h < 3 then r,g,b = 0,c,x
+  elseif h < 4 then r,g,b = 0,x,c
+  elseif h < 5 then r,g,b = x,0,c
+  else              r,g,b = c,0,x
+  end return (r+m)*255,(g+m)*255,(b+m)*255
+end
+
+--TODO: document
+--Taken from: https://love2d.org/wiki/HSV_color
+function util.maths.HSVtoRGB(hue, sat, val)
+  if sat <= 0 then return val,val,val end
+  local h, s, v = hue/256*6, sat/255, val/255
+  local c = v*s
+  local x = (1-math.abs((h%2)-1))*c
+  local m,r,g,b = (v-c), 0,0,0
+  if h < 1     then r,g,b = c,x,0
+  elseif h < 2 then r,g,b = x,c,0
+  elseif h < 3 then r,g,b = 0,c,x
+  elseif h < 4 then r,g,b = 0,x,c
+  elseif h < 5 then r,g,b = x,0,c
+  else              r,g,b = c,0,x
+  end return (r+m),(g+m),(b+m)
+end
+
 ---------------------- DEBUG
 
 function util.debug.log(text)
@@ -163,5 +200,22 @@ function util.love.renderStats(x, y)
 end
 
 if not love then util.love = nil end
+
+---------------------- STRING
+
+--TODO: document this
+
+function util.string.randomString(l)
+  if l < 1 then return nil end
+  local stringy=""
+  for i=1,l do
+    stringy=stringy..random_letter()
+  end
+  return stringy
+end
+
+function util.string.randomLetter()
+    return string.char(math.random(97, 122));
+end
 
 return util

@@ -6,7 +6,7 @@ love.math.setRandomSeed(os.time())
 
 -- Constants
 -- TODO: CONSIDER VARYING SOME OF THESE PER LANDSCAPE
-local LANDSCAPE_COUNT = 4
+local LANDSCAPE_COUNT = 8
 
 -- Globals
 local image = {} -- operate in a table so we can add layers
@@ -16,8 +16,9 @@ function love.load()
     Util = require("util")
     require("class.landscape")
     require("class.image")
+    require("class.colourHSV")
 
-    image = Image()
+    image = Image(Colour(love.math.random(255), love.math.random(20, 255), love.math.random(150,255)))
     image:addBulkLandscapes(LANDSCAPE_COUNT)
 end
 

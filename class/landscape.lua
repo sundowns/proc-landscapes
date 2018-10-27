@@ -7,8 +7,7 @@ Landscape = Class {
         assert(octaves)
         assert(persistence)
         assert(noise_scale)
-        print(opacity)
-        Util.t.print(colour)
+        self.ready = false -- use this to generate as a part of the update cycle
         self.opacity = opacity
         self.y_offset = y_offset
         self.noise_scale = noise_scale
@@ -17,11 +16,11 @@ Landscape = Class {
         self.persistence = persistence
         self.colour = colour
         self.pixel_map = {}
-        self.seed = love.math.random() --could make this per landscape to get shadow lines
+        self.seed = love.math.randomNormal() 
         self:generate()
     end;
     generate = function(self)
-        self.canvas = love.graphics.newCanvas() --does this clean up old one? TODO: test with util.stats
+        self.canvas = love.graphics.newCanvas()
         for x = 0, self.pixel_count, 1 do
             self.pixel_map[x] = self:octaveSimplex(x, self.octaves, self.persistence)
         end
@@ -30,7 +29,7 @@ Landscape = Class {
     end;
     renderToCanvas = function(self)
         love.graphics.setCanvas(self.canvas)
-        love.graphics.setColor(self.colour)
+        love.graphics.setColor(self.colour:toRGB())
         for x = 0, self.pixel_count, 1 do
             for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
                 love.graphics.points(x, y)
@@ -39,8 +38,7 @@ Landscape = Class {
         love.graphics.setCanvas()
     end;
     draw = function (self)
-        Util.d.log("col: " ..self.colour[1]..' , '..self.colour[2]..' , '..self.colour[3] .. " opacity: ".. self.opacity)
-        love.graphics.setColor(1,1,1, self.opacity) --TODO: Pull transparency from layer ##
+        love.graphics.setColor(1,1,1, self.opacity)
         love.graphics.draw(self.canvas, 0, self.y_offset)
     end;
     --https://jonoshields.com/2017/03/29/creating-procedurally-generated-scenes/
