@@ -9,9 +9,10 @@ return {
         GRADIENT_VALUE_CHANGE = 5,
         LAYER_COLOUR_CHANGE = 0.6
     },
-    BACKGROUND = {
-        VALUE_MULTIPLIER = 3, --lightness
-        GRADIENT_SATURATION_CHANGE = 150
+    BACKGROUND = {  
+        VALUE_MULTIPLIER = 25, --lightness
+        GRADIENT_VALUE_CHANGE = 150
     },
-    RENDER_DELAY =  0.05
+    LUNAR_BODY_SPAWN_RATE = 1, -- 100%
+    RENDER_DELAY =  0.05 
 }

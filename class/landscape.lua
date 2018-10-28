@@ -31,8 +31,7 @@ Landscape = Class {
         local colour = self.colour:clone()
         for x = 0, self.pixel_count, 1 do
             for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
-                
-                colour.v = colour.v + -1*constants.LANDSCAPES.GRADIENT_VALUE_CHANGE/love.graphics.getHeight()
+                colour.v = colour.v - constants.LANDSCAPES.GRADIENT_VALUE_CHANGE/love.graphics.getHeight()
                 love.graphics.setColor(colour:toRGB())
                 love.graphics.points(x, y)
             end

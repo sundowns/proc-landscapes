@@ -11,6 +11,7 @@ Image = Class {
         self.complete = false
         self.screenshotted = false
         self.background = {}
+        self.hasPlanet = love.math.random() < constants.LUNAR_BODY_SPAWN_RATE
         self:createBackground()
     end;
     update = function(self, dt)
@@ -45,24 +46,23 @@ Image = Class {
     createBackground = function(self)
         self:calculateBackgroundColour()
         self.background = love.graphics.newCanvas()
-        local reset = self.backgroundColour.s
         local colour = self.backgroundColour:clone()
+        local reset = colour.v
         love.graphics.setCanvas(self.background)
             for x = 0, love.graphics.getWidth() do
                 for y = love.graphics.getHeight(), 1, -1 do
-                    colour:adjustSaturation(constants.BACKGROUND.GRADIENT_SATURATION_CHANGE/love.graphics.getHeight())
+                    colour.v = colour .v + constants.BACKGROUND.GRADIENT_VALUE_CHANGE/love.graphics.getHeight()
                     love.graphics.setColor(colour:toRGB())
                     love.graphics.points(x, y)
                 end 
-                colour.s = reset
+                colour.v = reset
             end
-        love.graphics.setCanvas()
+        love.graphics.setCanvas() 
     end;
     calculateBackgroundColour = function(self)
         self.backgroundColour = self.colour_HSV:clone()
         self.backgroundColour:adjustHue(love.math.random(64,128))
-        self.backgroundColour:adjustSaturation(-0.6*self.backgroundColour.s)
-        self.backgroundColour.v = constants.BACKGROUND.VALUE_MULTIPLIER * self.backgroundColour.v
+        self.backgroundColour.v = Util.m.clamp(constants.BACKGROUND.VALUE_MULTIPLIER * self.backgroundColour.v, 150, 240)
     end;
     generateColourTable = function(self, count)
         self.colours = {}
