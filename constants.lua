@@ -12,7 +12,16 @@ return {
     BACKGROUND = {  
         VALUE_MULTIPLIER = 25, --lightness
         GRADIENT_VALUE_CHANGE = 150
+    }, 
+    LUNAR_BODY = {
+        SPAWN_RATE = 0.5,
+        MIN_RADIUS = 20,
+        MAX_RADIUS = 120,
+        MIN_X = 0.1, -- % of image width
+        MAX_X = 0.8, -- % of image width
+        MIN_Y = 0.1, -- % of image height
+        MAX_Y = 0.6, -- % of image height
+        HUE_VARIANCE = 20
     },
-    LUNAR_BODY_SPAWN_RATE = 1, -- 100%
     RENDER_DELAY =  0.05 
 }

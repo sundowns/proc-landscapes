@@ -1,4 +1,3 @@
-love.math.setRandomSeed(love.timer.getTime())
 love.filesystem.setRequirePath(love.filesystem.getRequirePath()..";lib/?.lua;lib/;")
 debug = false
 
@@ -9,6 +8,7 @@ function love.load()
     Class = require("class")
     Util = require("util")
     constants = require("constants")
+    require("class.lunarbody")
     require("class.landscape")
     require("class.image")
     require("class.colourHSV")
@@ -19,6 +19,7 @@ function love.load()
 end
 
 function generate()
+    love.math.setRandomSeed(os.time())
     image = Image(Colour(love.math.random(255), love.math.random(20, 255), love.math.random(100,200)))
     image:addBulkLandscapes(constants.LANDSCAPES.COUNT)
 end;

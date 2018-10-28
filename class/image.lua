@@ -9,10 +9,13 @@ Image = Class {
         self.renderTimer = 0
         self.screenshotted = false
         self.complete = false
-        self.screenshotted = false
         self.background = {}
-        self.hasPlanet = love.math.random() < constants.LUNAR_BODY_SPAWN_RATE
-        self:createBackground()
+        self:generateBackground()
+        self.lunarBody = {}
+        self.hasLunarBody = love.math.random() < constants.LUNAR_BODY.SPAWN_RATE
+        if self.hasLunarBody then
+            self:generateLunarBody()
+        end
     end;
     update = function(self, dt)
         if not self.backgroundDrawn then
@@ -22,7 +25,7 @@ Image = Class {
 
         if self.renderIndex > #self.landscapes then
             self.complete = true
-            return --All landscapes already
+            return --All landscapes ready
         end
 
         self.renderTimer = self.renderTimer - dt
@@ -39,11 +42,28 @@ Image = Class {
         Util.l.resetColour()
         love.graphics.draw(self.background, 0, 0)
 
+        if self.hasLunarBody then
+            love.graphics.setColor(1,1,1,0.8)
+            self.lunarBody:draw()
+        end
+
+        Util.l.resetColour()
         for i = #self.landscapes, 1, -1 do
             self.landscapes[i]:draw()
         end;
     end;
-    createBackground = function(self)
+    generateLunarBody = function(self)
+        local w = love.graphics.getWidth()
+        local h = love.graphics.getHeight()
+        local x = love.math.random(constants.LUNAR_BODY.MIN_X*w, constants.LUNAR_BODY.MAX_X*w)
+        local y = love.math.random(constants.LUNAR_BODY.MIN_Y*h, constants.LUNAR_BODY.MAX_Y*h)
+        local radius = love.math.random(constants.LUNAR_BODY.MIN_RADIUS, constants.LUNAR_BODY.MAX_RADIUS)
+        local hue = Util.m.jitterBy((self.colour_HSV.h + self.backgroundColour.h)/2, constants.LUNAR_BODY.HUE_VARIANCE)
+        local colour = Colour(hue, love.math.random(1, 50), love.math.random(220,255))
+
+        self.lunarBody = LunarBody(x, y, radius, colour)
+    end;
+    generateBackground = function(self)
         self:calculateBackgroundColour()
         self.background = love.graphics.newCanvas()
         local colour = self.backgroundColour:clone()
