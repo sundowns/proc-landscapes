@@ -1,4 +1,4 @@
-love.math.setRandomSeed(os.time())
+love.math.setRandomSeed(love.timer.getTime())
 love.filesystem.setRequirePath(love.filesystem.getRequirePath()..";lib/?.lua;lib/;")
 debug = false
 
@@ -42,7 +42,6 @@ function love.keypressed(key)
     elseif key == "escape" then
         love.event.quit()
     elseif key == "space" then
-        -- love.event.quit('restart')
         generate()
     end
 end

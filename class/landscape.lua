@@ -13,9 +13,10 @@ Landscape = Class {
         self.persistence = persistence
         self.colour = colour
         self.pixel_map = {}
-        self.seed = love.math.randomNormal() + love.math.random() 
+        self.seed = nil
     end;
     generate = function(self)
+        self.seed = love.math.random() 
         self.canvas = love.graphics.newCanvas()
         for x = 0, self.pixel_count, 1 do
             self.pixel_map[x] = self:octaveSimplex(x, self.octaves, self.persistence)
@@ -26,16 +27,16 @@ Landscape = Class {
     end;
     renderToCanvas = function(self)
         love.graphics.setCanvas(self.canvas)
-        local reset =  self.colour.h
-        local colour = self.colour
-        local hue_change = constants.LANDSCAPES.GRADIENT_HUE_CHANGE
+        local reset =  self.colour.v
+        local colour = self.colour:clone()
         for x = 0, self.pixel_count, 1 do
             for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
-                colour.h = colour.h - hue_change/y
+                
+                colour.v = colour.v + -1*constants.LANDSCAPES.GRADIENT_VALUE_CHANGE/love.graphics.getHeight()
                 love.graphics.setColor(colour:toRGB())
                 love.graphics.points(x, y)
             end
-            colour.h = reset
+            colour.v = reset
         end;
         love.graphics.setCanvas()
     end;
