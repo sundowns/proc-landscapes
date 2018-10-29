@@ -11,10 +11,9 @@ Image = Class {
         self.complete = false
         self.background = {}
         self:generateBackground()
-        self.lunarBody = {}
-        self.hasLunarBody = love.math.random() < constants.LUNAR_BODY.SPAWN_RATE
-        if self.hasLunarBody then
-            self:generateLunarBody()
+        self.lunarBodies = {}
+        if love.math.random() < constants.LUNAR_BODY.CHANCE_OF_ANY then
+            self:generateLunarBodies()
         end
     end;
     update = function(self, dt)
@@ -42,9 +41,9 @@ Image = Class {
         Util.l.resetColour()
         love.graphics.draw(self.background, 0, 0)
 
-        if self.hasLunarBody then
-            love.graphics.setColor(1,1,1,0.8)
-            self.lunarBody:draw()
+        for i, body in pairs(self.lunarBodies) do
+            love.graphics.setColor(1,1,1,1)
+            body:draw()
         end
 
         Util.l.resetColour()
@@ -52,16 +51,21 @@ Image = Class {
             self.landscapes[i]:draw()
         end;
     end;
-    generateLunarBody = function(self)
+    generateLunarBodies = function(self)
         local w = love.graphics.getWidth()
         local h = love.graphics.getHeight()
-        local x = love.math.random(constants.LUNAR_BODY.MIN_X*w, constants.LUNAR_BODY.MAX_X*w)
-        local y = love.math.random(constants.LUNAR_BODY.MIN_Y*h, constants.LUNAR_BODY.MAX_Y*h)
-        local radius = love.math.random(constants.LUNAR_BODY.MIN_RADIUS, constants.LUNAR_BODY.MAX_RADIUS)
-        local hue = Util.m.jitterBy((self.colour_HSV.h + self.backgroundColour.h)/2, constants.LUNAR_BODY.HUE_VARIANCE)
-        local colour = Colour(hue, love.math.random(1, 50), love.math.random(220,255))
 
-        self.lunarBody = LunarBody(x, y, radius, colour)
+        for i = 0, constants.LUNAR_BODY.MAX_SPAWNS do
+            if love.math.random() < constants.LUNAR_BODY.SPAWN_RATE then
+                local x = love.math.random(constants.LUNAR_BODY.MIN_X*w, constants.LUNAR_BODY.MAX_X*w)
+                local y = love.math.random(constants.LUNAR_BODY.MIN_Y*h, constants.LUNAR_BODY.MAX_Y*h)
+                local radius = love.math.random(constants.LUNAR_BODY.MIN_RADIUS, constants.LUNAR_BODY.MAX_RADIUS)
+                local hue = Util.m.jitterBy((self.colour_HSV.h + self.backgroundColour.h)/2, constants.LUNAR_BODY.HUE_VARIANCE)
+                local colour = Colour(hue, love.math.random(1, 50), love.math.random(220,255))
+
+                table.insert(self.lunarBodies, LunarBody(x, y, radius, colour))
+            end
+        end
     end;
     generateBackground = function(self)
         self:calculateBackgroundColour()

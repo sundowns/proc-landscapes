@@ -16,7 +16,7 @@ Landscape = Class {
         self.seed = nil
     end;
     generate = function(self)
-        self.seed = love.math.random() 
+        self.seed = love.math.random(1000) 
         self.canvas = love.graphics.newCanvas()
         for x = 0, self.pixel_count, 1 do
             self.pixel_map[x] = self:octaveSimplex(x, self.octaves, self.persistence)
