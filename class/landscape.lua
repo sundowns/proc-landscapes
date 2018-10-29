@@ -17,7 +17,7 @@ Landscape = Class {
     end;
     generate = function(self)
         self.seed = love.math.random(1000) 
-        self.canvas = love.graphics.newCanvas()
+        self.canvas = love.graphics.newCanvas(love.graphics.getWidth(), love.graphics.getHeight(), {mipmaps="manual"})
         for x = 0, self.pixel_count, 1 do
             self.pixel_map[x] = self:octaveSimplex(x, self.octaves, self.persistence)
         end
@@ -26,17 +26,17 @@ Landscape = Class {
         self.complete = true
     end;
     renderToCanvas = function(self)
-        love.graphics.setCanvas(self.canvas)
         local reset =  self.colour.v
         local colour = self.colour:clone()
-        for x = 0, self.pixel_count, 1 do
-            for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
-                colour.v = colour.v - constants.LANDSCAPES.GRADIENT_VALUE_CHANGE/love.graphics.getHeight()
-                love.graphics.setColor(colour:toRGB())
-                love.graphics.points(x, y)
-            end
-            colour.v = reset
-        end;
+        love.graphics.setCanvas(self.canvas)
+            for x = 0, self.pixel_count, 1 do
+                for y = love.graphics.getHeight()+self.y_offset, self.pixel_map[x], -1 do
+                    colour.v = colour.v - constants.LANDSCAPES.GRADIENT_VALUE_CHANGE/love.graphics.getHeight()
+                    love.graphics.setColor(colour:toRGB())
+                    love.graphics.points(x, y)
+                end
+                colour.v = reset
+            end;
         love.graphics.setCanvas()
     end;
     draw = function (self)

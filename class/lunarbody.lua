@@ -8,7 +8,7 @@ LunarBody = Class {
         self.y = y
         self.radius = radius
         self.colour = colour
-        self.canvas = love.graphics.newCanvas()
+        self.canvas = love.graphics.newCanvas(love.graphics.getWidth(), love.graphics.getHeight())
         self:renderToCanvas()
     end;
     renderToCanvas = function(self)

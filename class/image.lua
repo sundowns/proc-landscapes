@@ -55,7 +55,7 @@ Image = Class {
         local w = love.graphics.getWidth()
         local h = love.graphics.getHeight()
 
-        for i = 0, constants.LUNAR_BODY.MAX_SPAWNS do
+        for i = 1, constants.LUNAR_BODY.MAX_SPAWNS do
             if love.math.random() < constants.LUNAR_BODY.SPAWN_RATE then
                 local x = love.math.random(constants.LUNAR_BODY.MIN_X*w, constants.LUNAR_BODY.MAX_X*w)
                 local y = love.math.random(constants.LUNAR_BODY.MIN_Y*h, constants.LUNAR_BODY.MAX_Y*h)
