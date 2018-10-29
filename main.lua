@@ -2,12 +2,13 @@ love.filesystem.setRequirePath(love.filesystem.getRequirePath()..";lib/?.lua;lib
 debug = false
 
 -- Globals
-local image = {} -- operate in a table so we can add layers
+local image = {}
 
 function love.load()
     Class = require("class")
     Util = require("util")
-    constants = require("constants")
+    constants = require("const-landscape")
+    -- constants = require("const-avatar")
     require("class.lunarbody")
     require("class.landscape")
     require("class.image")
@@ -18,7 +19,10 @@ function love.load()
     generate()
 end
 
+
+
 function generate()
+    love.window.setMode(constants.WIDTH, constants.HEIGHT)
     love.math.setRandomSeed(os.time())
     image = Image(Colour(love.math.random(255), love.math.random(20, 255), love.math.random(100,200)))
     image:addBulkLandscapes(constants.LANDSCAPES.COUNT)
@@ -43,6 +47,13 @@ function love.keypressed(key)
     elseif key == "escape" then
         love.event.quit()
     elseif key == "space" then
+        generate()
+    elseif key == "c" then
+        if constants.CONFIG_NAME == "avatar" then
+            constants = require("const-landscape")
+        elseif constants.CONFIG_NAME == "landscape" then
+            constants = require("const-avatar")
+        end
         generate()
     end
 end

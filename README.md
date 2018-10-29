@@ -8,6 +8,7 @@ Creative coding project create art with procedurally generated mountain ranges u
 | ------------- |:-------------:|
 | space      | Generate new landscape |
 | s      | Screenshot the current landscape |  
+| c      | Change config (toggle landscape/avatar atm) |  
 | esc | Exit      |
 
 ## Examples
@@ -16,4 +17,4 @@ Creative coding project create art with procedurally generated mountain ranges u
 ![example2](/examples/2.PNG)
 ![example3](/examples/3.PNG)
 ![example4](/examples/4.PNG)
-![example5](/examples/5.PNG)
+![example5](/examples/5.png)

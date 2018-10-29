@@ -110,7 +110,7 @@ Image = Class {
         local persistence = constants.LANDSCAPES.PERSISTENCE
         for i = 1, count do
             self:addLandscape(offset, persistence)
-            offset = offset - love.math.random(love.graphics.getHeight()*0.15/count, love.graphics.getHeight()*0.3/count)
+            offset = offset - love.math.random(love.graphics.getHeight()*constants.LANDSCAPES.MIN_OFFSET_CHANGE_MULTIPLIER/count, love.graphics.getHeight()*constants.LANDSCAPES.MAX_OFFSET_CHANGE_MULTIPLIER/count)
             persistence = persistence * constants.LANDSCAPES.LACUNARITY
         end
     end;
